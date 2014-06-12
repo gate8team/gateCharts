@@ -9,18 +9,19 @@
 	<script src="./static/js/libs/snap.svg-min.js"></script>
     <script src="./static/js/pathStringBuilder.js"></script>
     <script src="./static/js/piePiece.js"></script>
+    <script src="./static/js/pieChart.js"></script>
 
 	<script>
-        var pathStringBuilder = new PathStringBuilder();
+        var pathStringBuilder = new PathStringBuilder()
+            pieChart = new PieChart({elementSelector: '#svg'});
 
 		var percentage = [20, 70, 20, 15, 15];
 		var colors = ['#00ffff', '#0000ff', '#ff0000', '#ffff00', '#ff00ff'];
 
-		var s = Snap("#svg");
 		var sum = percentage.reduce(function(pv, cv) { return pv + cv; }, 0);
 
-		var minAgle = 0, maxAngle = 180,
-			diffAngle = maxAngle - minAgle;
+		var minAngle = 0, maxAngle = 180,
+			diffAngle = maxAngle - minAngle;
 
 		var i = j = 0;
 		percentage.forEach(function(el){
@@ -32,9 +33,9 @@
                         title: title,
                         value: el,
                         color: colors[j++],
-                        startAngle: minAgle,
-                        endAngle: (minAgle + angle),
-                        pathString: pathStringBuilder.changeAngles(minAgle, minAgle + angle).getPathString(),
+                        startAngle: minAngle,
+                        endAngle: (minAngle + angle),
+                        pathString: pathStringBuilder.changeAngles(minAngle, minAngle + angle).getPathString(),
                         hoverIn: function(){
                             console.log(title);
                         },
@@ -44,21 +45,26 @@
                     }
             );
 
-            console.log(piePiece);
-
-			s.path(piePiece.getPathString()).attr({
-			    fill: piePiece.getColor(),
-				stroke: "#000000",
-				strokeWidth: 1
-			}).hover(
-                piePiece._hoverIn,
-                piePiece._hoverOut,
-                '123',
-                {}
-            );
-
-			minAgle += angle;
+            pieChart.addPiePiece(piePiece);
+            minAngle += angle;
 		});
+
+        var s = Snap(pieChart.getChartSelector());
+
+        pieChart.getPiePieces().forEach(function(piePiece){
+            s.path(piePiece.getPathString()).attr({
+                fill: piePiece.getColor(),
+                stroke: "#000000",
+                strokeWidth: 1
+            }).hover(
+                    piePiece._hoverIn,
+                    piePiece._hoverOut,
+                    '123',
+                    {}
+            );
+        });
+
+//        console.log(pieChart);
 	</script>
 </body>
 </html>
