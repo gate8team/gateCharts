@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+	<title>Test task</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<svg id="svg"></svg>
+	<script src="./static/js/libs/snap.svg-min.js"></script>
+	<script>
+		function getCmdsByAngles(startAngle, endAngle){
+			var opts = {
+		        cx           : 200,
+		        cy           : 200,
+		        startRadians : (startAngle * 3.14 / 180),
+		        closeRadians : (endAngle * 3.14 / 180),
+	    	};			
+
+	    	
+	      	/*if (opts.innerRadius!==undefined) opts.r1 = opts.innerRadius;
+      		else if (opts.outerRadius!==undefined) opts.r1 = opts.outerRadius - t;
+      		else*/ 
+      		
+      		/*if (opts.outerRadius!==undefined) opts.r2 = opts.outerRadius;
+      		else*/
+
+			var t = 50;
+			opts.r1 = 100 - t;
+      		opts.r2 = opts.r1 + t;
+
+      		if (opts.r1<0) opts.r1 = 0;
+      		if (opts.r2<0) opts.r2 = 0;
+
+
+		    var p = [
+		    	[opts.cx + opts.r2*Math.sin(opts.startRadians),
+		    		opts.cy - opts.r2*Math.cos(opts.startRadians)],
+		    	[opts.cx + opts.r2*Math.sin(opts.closeRadians),
+		       		opts.cy - opts.r2*Math.cos(opts.closeRadians)],
+		      	[opts.cx + opts.r1*Math.sin(opts.closeRadians),
+		       		opts.cy - opts.r1*Math.cos(opts.closeRadians)],
+		      	[opts.cx + opts.r1*Math.sin(opts.startRadians),
+		       		opts.cy - opts.r1*Math.cos(opts.startRadians)],
+		    ];
+
+	    	var angleDiff = opts.closeRadians - opts.startRadians;
+    		var largeArc = (angleDiff % (Math.PI*2)) > Math.PI ? 1 : 0;
+
+    		var string = [];
+	    	string.push("M"+p[0].join());                                
+		    string.push("A"+[opts.r2,opts.r2,0,largeArc,1,p[1]].join()); 
+	    	string.push("L"+p[2].join());                                
+	    	string.push("A"+[opts.r1,opts.r1,0,largeArc,0,p[3]].join()); 
+		    string.push("z");    
+
+		    return string;
+		}
+	</script>
+	<script>
+		var percentage = [20, 70, 20, 15, 15];
+		var colors = ['#00ffff', '#0000ff', '#ff0000', '#ffff00', '#ff00ff'];
+
+		var s = Snap("#svg");
+		var sum = percentage.reduce(function(pv, cv) { return pv + cv; }, 0);
+
+		var minAgle = 0, maxAngle = 180,
+			diffAngle = maxAngle - minAgle;
+
+		var i = 0;
+		percentage.forEach(function(el){
+			var angle = diffAngle * el / sum;
+
+			s.path(getCmdsByAngles(minAgle, minAgle + angle)).attr({
+			    fill: colors[i++],
+				stroke: "#000000",
+				strokeWidth: 1
+			}).hover(function(){
+				//TODO
+			}, function() {
+				//TODO
+			}, '123', {});
+
+			minAgle += angle;
+		});
+	</script>
+</body>
+</html>
