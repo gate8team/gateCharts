@@ -5,12 +5,20 @@
 	<meta charset="utf-8">
 </head>
 <body style="background: #EBF0F2;">
-	<svg id="svg">
-        <piece value="15" name="First element" color="#0B86EA"></piece>
-        <piece value="30" name="Second element" color="#FFDA36"></piece>
-        <piece value="40" name="Third element" color="#CCCCCC"></piece>
-        <piece value="15" name="Fourth element" color="#67A008"></piece>
-    </svg>
+    <ul class="pieChart">
+        <li value="15" name="First element" color="#0B86EA"></li>
+        <li value="30" name="Second element" color="#FFDA36"></li>
+        <li value="40" name="Third element" color="#CCCCCC"></li>
+        <li value="15" name="Fourth element" color="#67A008"></li>
+    </ul>
+    <div style="margin-top: 0px;">
+        <svg id="svg">
+            <piece value="15" name="First element" color="#0B86EA"></piece>
+            <piece value="30" name="Second element" color="#FFDA36"></piece>
+            <piece value="40" name="Third element" color="#CCCCCC"></piece>
+            <piece value="15" name="Fourth element" color="#67A008"></piece>
+        </svg>
+    </div>
 	<script src="./static/js/libs/snap.svg-min.js"></script>
     <!--<script src="./static/js/libs/snap.svg.js"></script>-->
     <script src="./static/js/pathStringBuilder.js"></script>
@@ -29,22 +37,6 @@
             colors.push(elements[i].getAttribute('color'));
         }
 
-//        console.log(colors);
-//        console.log(percentage);
-//        elements.forEach(function(el){
-//            console.log(el);
-//            percentage.push(el.getAttribute('name'));
-//            colors.push(el.getAttribute('color'));
-//        });
-
-//        var name = elements[0].hasAttribute('name') ? elements[0].getAttribute('name') : null;
-//        var value = elements[0].hasAttribute('value') ? elements[0].getAttribute('value') : null;
-//        var color = elements[0].hasAttribute('color') ? elements[0].getAttribute('color') : null;
-//        console.log(name);
-
-//        var percentage = [20, 70, 20, 15];
-//		var colors = ['#0B86EA', '#FFDA36', '#CCCCCC', '#67A008'];
-
 		var sum = percentage.reduce(function(pv, cv) { return pv + cv; }, 0);
 
 		var minAngle = -90, maxAngle = 90,
@@ -57,6 +49,8 @@
 			var angle = diffAngle * el / sum;
             var title = 'Piece #' + j;
 
+            pieChart.getChart().text(0, 100 + j * 20, title);
+
             var piePiece = new PiePiece(
                     {
                         title: title,
@@ -64,8 +58,8 @@
                         color: colors[j++],
                         startAngle: minAngle,
                         endAngle: (minAngle + angle),
-                        pathString: pathStringBuilder.changeAngles(minAngle, minAngle + angle).getPathString({cx: 150, cy: 150, t: 50}).join(''),
-                        animatePath: pathStringBuilder.getPathString({outerOffset:8, cx: 150, cy: 150}).join('')
+                        pathString: pathStringBuilder.changeAngles(minAngle, minAngle + angle).getPathString({cx: 80, cy: 80, t: 30, r: 60}).join(''),
+                        animatePath: pathStringBuilder.getPathString({outerOffset:8, cx: 80, cy: 80, t: 30, r: 60}).join('')
                     }
             );
 

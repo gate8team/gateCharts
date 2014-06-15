@@ -18,8 +18,8 @@ PathStringBuilder.prototype.convertAngle = function(angle){
 
 PathStringBuilder.prototype.getPathString = function(o) {
     var opts = {
-        cx: o.cx || 200,
-        cy: o.cy || 200,
+        cx: o.cx || 0,
+        cy: o.cy || 0,
         startRadians: this.convertAngle(this._startAngle),
         closeRadians: this.convertAngle(this._endAngle)
     },
@@ -28,9 +28,10 @@ PathStringBuilder.prototype.getPathString = function(o) {
         angleDiff = 0,
         largeArc = 0,
         pathString = [],
-        r = o.outerOffset || 0;
+        r = o.outerOffset || 0,
+        r1 = o.r || 100;
 
-    opts.r1 = 100 - t;
+    opts.r1 = r1 - t;
     opts.r2 = opts.r1 + t;
 
     if (opts.r1<0) opts.r1 = 0;
