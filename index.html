@@ -7,6 +7,7 @@
 <body>
 	<svg id="svg"></svg>
 	<script src="./static/js/libs/snap.svg-min.js"></script>
+    <!--<script src="./static/js/libs/snap.svg.js"></script>-->
     <script src="./static/js/pathStringBuilder.js"></script>
     <script src="./static/js/piePiece.js"></script>
     <script src="./static/js/pieChart.js"></script>
@@ -24,6 +25,8 @@
 			diffAngle = maxAngle - minAngle;
 
 		var i = j = 0;
+        pieChart.initChart();
+
 		percentage.forEach(function(el){
 			var angle = diffAngle * el / sum;
             var title = 'Piece #' + j;
@@ -35,36 +38,14 @@
                         color: colors[j++],
                         startAngle: minAngle,
                         endAngle: (minAngle + angle),
-                        pathString: pathStringBuilder.changeAngles(minAngle, minAngle + angle).getPathString(),
-                        hoverIn: function(){
-                            console.log(title);
-                        },
-                        hoverOut: function(){
-
-                        }
+                        pathString: pathStringBuilder.changeAngles(minAngle, minAngle + angle).getPathString().join(''),
+                        animatePath: pathStringBuilder.changeAngles(minAngle, minAngle + angle).getPathString().join('')
                     }
             );
 
-            pieChart.addPiePiece(piePiece);
+            pieChart.addPiePiece(piePiece.initPiece(pieChart.getChart()));
             minAngle += angle;
 		});
-
-        var s = Snap(pieChart.getChartSelector());
-
-        pieChart.getPiePieces().forEach(function(piePiece){
-            s.path(piePiece.getPathString()).attr({
-                fill: piePiece.getColor(),
-                stroke: "#000000",
-                strokeWidth: 1
-            }).hover(
-                    piePiece._hoverIn,
-                    piePiece._hoverOut,
-                    '123',
-                    {}
-            );
-        });
-
-//        console.log(pieChart);
 	</script>
 </body>
 </html>
