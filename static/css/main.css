@@ -1,0 +1,5 @@
+body {}
+    body.-gray {background: #EBF0F2;}
+
+.element {}
+    .element.-hidden {display: none;}

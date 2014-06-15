@@ -3,69 +3,54 @@
 <head>
 	<title>Test task</title>
 	<meta charset="utf-8">
+    <link rel="stylesheet" href="./static/css/main.css">
 </head>
-<body style="background: #EBF0F2;">
-    <ul class="pieChart">
-        <li value="15" name="First element" color="#0B86EA"></li>
-        <li value="30" name="Second element" color="#FFDA36"></li>
-        <li value="40" name="Third element" color="#CCCCCC"></li>
-        <li value="15" name="Fourth element" color="#67A008"></li>
+<body class="-gray">
+    <ul class="pieChart" cx="80" cy="80" t="30" r="60" o="8" af="-90" at="90" sid="svg--one">
+        <li value="15" title="First element" color="#0B86EA"></li>
+        <li value="30" title="Second element" color="#FFDA36"></li>
+        <li value="40" title="Third element" color="#CCCCCC"></li>
+        <li value="15" title="Fourth element" color="#67A008"></li>
     </ul>
-    <div style="margin-top: 0px;">
-        <svg id="svg">
-            <piece value="15" name="First element" color="#0B86EA"></piece>
-            <piece value="30" name="Second element" color="#FFDA36"></piece>
-            <piece value="40" name="Third element" color="#CCCCCC"></piece>
-            <piece value="15" name="Fourth element" color="#67A008"></piece>
-        </svg>
-    </div>
+
+    <ul class="pieChart" cx="80" cy="80" t="30" r="60" o="8" af="0" at="180" sid="svg--two">
+        <li value="20" title="First element" color="#0B86EA"></li>
+        <li value="30" title="Second element" color="#FFDA36"></li>
+        <li value="35" title="Third element" color="#CCCCCC"></li>
+        <li value="15" title="Fourth element" color="#67A008"></li>
+    </ul>
+
+    <ul class="pieChart" cx="80" cy="80" t="30" r="60" o="8" af="90" at="270" sid="svg--three">
+        <li value="25" title="First element" color="#0B86EA"></li>
+        <li value="20" title="Second element" color="#FFDA36"></li>
+        <li value="40" title="Third element" color="#CCCCCC"></li>
+        <li value="15" title="Fourth element" color="#67A008"></li>
+    </ul>
+
+    <ul class="pieChart" cx="80" cy="80" t="30" r="60" o="8" af="180" at="360" sid="svg--four">
+        <li value="45" title="First element" color="#0B86EA"></li>
+        <li value="30" title="Second element" color="#FFDA36"></li>
+        <li value="10" title="Third element" color="#CCCCCC"></li>
+        <li value="15" title="Fourth element" color="#67A008"></li>
+    </ul>
+
+    <svg id="svg--one" style="height: 160px; width: 160px;"></svg>
+    <svg id="svg--two" style="height: 160px; width: 160px;"></svg>
+    <svg id="svg--three" style="height: 160px; width: 160px;"></svg>
+    <svg id="svg--four" style="height: 160px; width: 160px;"></svg>
+
 	<script src="./static/js/libs/snap.svg-min.js"></script>
     <!--<script src="./static/js/libs/snap.svg.js"></script>-->
     <script src="./static/js/pathStringBuilder.js"></script>
     <script src="./static/js/piePiece.js"></script>
     <script src="./static/js/pieChart.js"></script>
+    <script src="./static/js/markupProcessor.js"></script>
+    <script src="./static/js/gateChart.js"></script>
 
 	<script>
-        var pathStringBuilder = new PathStringBuilder()
-            pieChart = new PieChart({elementSelector: '#svg'}),
-            elements = document.getElementById('svg').getElementsByTagName('piece'),
-            percentage = [],
-            colors = [];
-
-        for (var i = 0; i < elements.length; i++) {
-            percentage.push(parseInt(elements[i].getAttribute('value')));
-            colors.push(elements[i].getAttribute('color'));
-        }
-
-		var sum = percentage.reduce(function(pv, cv) { return pv + cv; }, 0);
-
-		var minAngle = -90, maxAngle = 90,
-			diffAngle = maxAngle - minAngle;
-
-		var i = j = 0;
-        pieChart.initChart();
-
-		percentage.forEach(function(el){
-			var angle = diffAngle * el / sum;
-            var title = 'Piece #' + j;
-
-            pieChart.getChart().text(0, 100 + j * 20, title);
-
-            var piePiece = new PiePiece(
-                    {
-                        title: title,
-                        value: el,
-                        color: colors[j++],
-                        startAngle: minAngle,
-                        endAngle: (minAngle + angle),
-                        pathString: pathStringBuilder.changeAngles(minAngle, minAngle + angle).getPathString({cx: 80, cy: 80, t: 30, r: 60}).join(''),
-                        animatePath: pathStringBuilder.getPathString({outerOffset:8, cx: 80, cy: 80, t: 30, r: 60}).join('')
-                    }
-            );
-
-            pieChart.addPiePiece(piePiece.initPiece(pieChart.getChart()));
-            minAngle += angle;
-		});
+        window.onload = function() {
+            (new GateChart({elementSelector: '.pieChart'})).process().initialize();
+        };
 	</script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 'use strict';
 
 function PieChart(o) {
-    this._chartSelector = o.chartSelector || '#svg';
+    this._elementSelector = o.elementSelector || '#svg';
     this._piePieces = o.piePieces || [];
     this._chart = o.chart || null;
 }
@@ -18,7 +18,7 @@ PieChart.prototype.getPiePieces = function() {
 };
 
 PieChart.prototype.getChartSelector = function() {
-    return this._chartSelector;
+    return this._elementSelector;
 };
 
 PieChart.prototype.getChart = function() {
@@ -26,6 +26,6 @@ PieChart.prototype.getChart = function() {
 };
 
 PieChart.prototype.initChart = function() {
-    this._chart = Snap(this._chartSelector);
+    this._chart = Snap(this._elementSelector);
     return this;
 };

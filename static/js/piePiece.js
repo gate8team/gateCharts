@@ -35,7 +35,6 @@ PiePiece.prototype.initPiece = function(chart) {
         };
 
         this._hoverOut = function() {
-            console.log(this);
             this._piece.animate({
                 path: this._pathString
             }, 200, mina.easein);
@@ -50,6 +49,6 @@ PiePiece.prototype.initPiece = function(chart) {
             this
         );
     }
-//    console.log(this._pathString);
+
     return this;
 }
