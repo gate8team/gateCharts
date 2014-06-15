@@ -16,7 +16,7 @@ PathStringBuilder.prototype.convertAngle = function(angle){
     return angle * 3.14 / 180;
 };
 
-PathStringBuilder.prototype.getPathString = function() {
+PathStringBuilder.prototype.getPathString = function(outerOffset) {
     var opts = {
         cx: 200,
         cy: 200,
@@ -27,7 +27,8 @@ PathStringBuilder.prototype.getPathString = function() {
         p = [],
         angleDiff = 0,
         largeArc = 0,
-        pathString = [];
+        pathString = [],
+        r = outerOffset || 0;
 
     opts.r1 = 100 - t;
     opts.r2 = opts.r1 + t;
@@ -36,14 +37,14 @@ PathStringBuilder.prototype.getPathString = function() {
     if (opts.r2<0) opts.r2 = 0;
 
     p = [
-        [opts.cx + opts.r2*Math.sin(opts.startRadians),
-            opts.cy - opts.r2*Math.cos(opts.startRadians)],
-        [opts.cx + opts.r2*Math.sin(opts.closeRadians),
-            opts.cy - opts.r2*Math.cos(opts.closeRadians)],
-        [opts.cx + opts.r1*Math.sin(opts.closeRadians),
-            opts.cy - opts.r1*Math.cos(opts.closeRadians)],
-        [opts.cx + opts.r1*Math.sin(opts.startRadians),
-            opts.cy - opts.r1*Math.cos(opts.startRadians)],
+        [opts.cx + (opts.r2 + r)*Math.sin(opts.startRadians),
+            opts.cy - (opts.r2 +r)*Math.cos(opts.startRadians)],
+        [opts.cx + (opts.r2 + r)*Math.sin(opts.closeRadians),
+            opts.cy - (opts.r2 + r)*Math.cos(opts.closeRadians)],
+        [opts.cx + (opts.r1)*Math.sin(opts.closeRadians),
+            opts.cy - (opts.r1)*Math.cos(opts.closeRadians)],
+        [opts.cx + (opts.r1)*Math.sin(opts.startRadians),
+            opts.cy - (opts.r1)*Math.cos(opts.startRadians)],
     ];
 
     angleDiff = opts.closeRadians - opts.startRadians;

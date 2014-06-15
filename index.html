@@ -4,8 +4,13 @@
 	<title>Test task</title>
 	<meta charset="utf-8">
 </head>
-<body>
-	<svg id="svg"></svg>
+<body style="background: #EBF0F2;">
+	<svg id="svg">
+        <piece value="20" name="" color=""></piece>
+        <piece value="70" name="" color=""></piece>
+        <piece value="20" name="" color=""></piece>
+        <piece value="15" name="" color=""></piece>
+    </svg>
 	<script src="./static/js/libs/snap.svg-min.js"></script>
     <!--<script src="./static/js/libs/snap.svg.js"></script>-->
     <script src="./static/js/pathStringBuilder.js"></script>
@@ -16,12 +21,13 @@
         var pathStringBuilder = new PathStringBuilder()
             pieChart = new PieChart({elementSelector: '#svg'});
 
-		var percentage = [20, 70, 20, 15, 15];
-		var colors = ['#00ffff', '#0000ff', '#ff0000', '#ffff00', '#ff00ff'];
+
+        var percentage = [20, 70, 20, 15];
+		var colors = ['#0B86EA', '#FFDA36', '#CCCCCC', '#67A008'];
 
 		var sum = percentage.reduce(function(pv, cv) { return pv + cv; }, 0);
 
-		var minAngle = 0, maxAngle = 180,
+		var minAngle = -90, maxAngle = 90,
 			diffAngle = maxAngle - minAngle;
 
 		var i = j = 0;
@@ -39,7 +45,7 @@
                         startAngle: minAngle,
                         endAngle: (minAngle + angle),
                         pathString: pathStringBuilder.changeAngles(minAngle, minAngle + angle).getPathString().join(''),
-                        animatePath: pathStringBuilder.changeAngles(minAngle, minAngle + angle).getPathString().join('')
+                        animatePath: pathStringBuilder.getPathString(8).join('')
                     }
             );
 

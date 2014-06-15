@@ -30,21 +30,19 @@ PiePiece.prototype.initPiece = function(chart) {
     if (chart !== null && chart !== undefined) {
         this._hoverIn = function() {
             this._piece.animate({
-                path: 'M200,100A200,200,0,0,1,243.3678737703098,109.89324373476495L221.6839368851549,154.94662186738248A50,50,0,0,0,200,150z'
-            }, 500, mina.easeinout);
+                path: this._animatePath
+            }, 200, mina.easein);
         };
 
         this._hoverOut = function() {
             console.log(this);
             this._piece.animate({
                 path: this._pathString
-            }, 500, mina.easeinout);
+            }, 200, mina.easein);
         };
 
         this._piece = chart.path(this._pathString).attr({
-            fill: this._color,
-            stroke: "#000000",
-            strokeWidth: 1
+            fill: this._color
         }).hover(
             this._hoverIn,
             this._hoverOut,
