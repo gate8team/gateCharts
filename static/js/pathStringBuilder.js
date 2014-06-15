@@ -16,19 +16,19 @@ PathStringBuilder.prototype.convertAngle = function(angle){
     return angle * 3.14 / 180;
 };
 
-PathStringBuilder.prototype.getPathString = function(outerOffset) {
+PathStringBuilder.prototype.getPathString = function(o) {
     var opts = {
-        cx: 200,
-        cy: 200,
+        cx: o.cx || 200,
+        cy: o.cy || 200,
         startRadians: this.convertAngle(this._startAngle),
         closeRadians: this.convertAngle(this._endAngle)
     },
-        t = 50,
+        t = o.t || 50,
         p = [],
         angleDiff = 0,
         largeArc = 0,
         pathString = [],
-        r = outerOffset || 0;
+        r = o.outerOffset || 0;
 
     opts.r1 = 100 - t;
     opts.r2 = opts.r1 + t;

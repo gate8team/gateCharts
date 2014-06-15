@@ -50,6 +50,6 @@ PiePiece.prototype.initPiece = function(chart) {
             this
         );
     }
-    console.log(this._pathString);
+//    console.log(this._pathString);
     return this;
 }
